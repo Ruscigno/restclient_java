@@ -1,5 +1,6 @@
 package com.rafaeldantas.rcj;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -14,15 +15,32 @@ public class RestclientJavaApplication {
 	private static List<User> LISTA_USERS = getUsersJson();
 	
 	public static List<User> getUsersJson() {
-	    Gson gson = new Gson();
-	    return gson.fromJson(API_JSON, new TypeToken<List<User>>(){}.getType());
+		List<User> lista = new ArrayList<>();
+		
+		try {
+		    Gson gson = new Gson();
+		    lista = gson.fromJson(API_JSON, new TypeToken<List<User>>(){}.getType());
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return lista;
 	}
 
 	public static String getApiJson() {
-	    Client c = Client.create();
-	    WebResource wr = c.resource(API_WEB);
-	    String json = wr.get(String.class);
-	    return json;
+		String json = "";
+		
+		try {
+		    Client c = Client.create();
+		    WebResource wr = c.resource(API_WEB);
+		    json = wr.get(String.class);
+		}
+	    catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	    
+		return json;
 	}	
 
 	public static void main(String[] args) {
